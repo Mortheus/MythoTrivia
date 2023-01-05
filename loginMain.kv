@@ -1,0 +1,198 @@
+#:import platform kivy.utils.platform
+windowManager:
+    loginWindow:
+    signupWindow:
+    logDataWindow:
+    playWindow:
+
+# GUI for the login window
+<loginWindow>:
+    email : email
+    pwd : pwd
+    FloatLayout:
+        size: root.width, root.height
+        Image:
+            source: 'tree.jpg'
+            allow_stretch: True
+            keep_ratio: False
+
+        Label:
+            text : "EMAIL: "
+            size_hint : 0.3, 0.05
+            pos_hint : {"x":0.25, "top":0.4}
+
+        TextInput:
+            id : email
+            multiline :False
+            hint_text: 'example@mail.com'
+            font_size: 20
+            size_hint : 0.3, 0.05
+            padding_y: 2,2
+            pos_hint : {"x" : 0.45, "top" : 0.4}
+        Label:
+            text : "PASSWORD: "
+            size_hint : 0.3, 0.05
+            pos_hint : {"x" : 0.25, "top" : 0.3}
+        TextInput:
+            id : pwd
+            password: True
+            multiline :False
+            hint_text: '********'
+            font_size: 20
+            size_hint : 0.3, 0.05
+            padding_y: 2,2
+            pos_hint : {"x" : 0.45, "top" : 0.3}
+        Button:
+            text : "Create an account"
+            font_size: 15
+            size_hint : 0.2, 0.07
+            pos_hint : {"x" : 0.3, "top" : 0.2}
+            on_release:
+                app.root.current = 'signup'
+                root.manager.transition.direction = "left"
+        Button:
+            text : "LOGIN"
+            font_size: 20
+            size_hint : 0.2, 0.07
+            pos_hint : {"x" : 0.6, "top" : 0.2}
+            on_release:
+                root.validate()
+                root.manager.transition.direction = "up"
+
+# GUI for the signup window
+<signupWindow>:
+    name2 : name2
+    email : email
+    pwd : pwd
+    FloatLayout:
+        Label:
+            text : "NAME: "
+            size_hint : 0.2, 0.1
+            pos_hint : {"x":0.25, "top":0.9}
+        TextInput:
+            id : name2
+            multiline : False
+            size_hint : 0.3, 0.1
+            pos_hint : {"x" : 0.45, "top" : 0.9}
+        Label:
+            text : "EMAIL: "
+            size_hint : 0.2, 0.1
+            pos_hint : {"x" : 0.25, "top" : 0.7}
+        TextInput:
+            id : email
+            multiline : False
+            size_hint : 0.3, 0.1
+            pos_hint : {"x" : 0.45, "top" : 0.7}
+        Label:
+            text : "PASSWORD: "
+            size_hint : 0.2, 0.1
+            pos_hint : {"x" : 0.25, "top" : 0.5}
+        TextInput:
+            id : pwd
+            multiline : False
+            size_hint : 0.3, 0.1
+            pos_hint : {"x" : 0.45, "top" : 0.5}
+        Button:
+            text : "SUBMIT"
+            size_hint : 0.3, 0.1
+            pos_hint : {"x" : 0.39, "top" : 0.28}
+            on_press :
+                root.signupbtn()
+                root.manager.transition.direction = "right"
+
+
+<ProfilePicture>:
+    id:profile
+
+    Image:
+        id: img
+        source:"tree.jpg"
+
+    Button:
+        text : "Take new photo"
+        font_size: 15
+        size_hint : 0.2, 0.07
+        pos_hint : {"x" : 0.3, "top" : 0.2}
+        on_release:
+            app.root.current = 'photo'
+            root.manager.transition.direction = "left"
+
+    Button:
+        text : "Upload from storage"
+        font_size: 15
+        size_hint : 0.2, 0.07
+        pos_hint : {"x" : 0.6, "top" : 0.2}
+        on_release:
+            app.root.current = 'storage'
+            root.manager.transition.direction = "left"
+
+    Button:
+        text: "Confirm"
+        font_size: 15
+        size_hint: 0.1, 0.03
+        pos_hint: {"x": 0.4, "top": 0.1}
+        on_press: root.upload()
+
+
+    Button:
+        text: "Back"
+        font_size: 15
+        size_hint: 0.1, 0.03
+        pos_hint: {"x": 0.8, "top": 0.1}
+        on_release:
+            app.root.current = 'logdata'
+            root.manager.transition.direction = "left"
+
+
+<Storage>:
+    id:storage
+
+    BoxLayout:
+
+        orientation: "vertical"
+        size: root.width, root.height
+
+        Image:
+            id: my_image
+            source: ""
+
+        FileChooserListView:
+            path: '/storage/emulated/0/DCIM/MythoMagic' if platform == 'android' else '/'
+            id:filechooser
+            on_selection: storage.preview_image(filechooser.selection)
+
+
+
+# GUI to show validation result
+<logDataWindow>:
+    info : info
+    FloatLayout:
+        Label:
+            id : info
+            size_hint : 0.8, 0.2
+            pos_hint : {"x" : 0.15, "top" : 0.8}
+            text : "SUCCESSFULLY LOGGED IN"
+        Button:
+            text : "Start Playing"
+            size_hint : 0.4, 0.1
+            pos_hint : {"x" : 0.33, "top" : 0.55}
+            on_release:
+                app.root.current = 'play'
+                root.manager.transition.direction = "down"
+        Button:
+            text : "Take photo"
+            size_hint : 0.4, 0.1
+            pos_hint : {"x" : 0.33, "top" : 0.4}
+            on_release:
+                app.root.current = 'profile'
+                root.manager.transition.direction = "down"
+
+
+
+# GUI for pop up window
+<P>:
+    Label:
+        text : "Please enter valid information"
+        size_hint : 0.2, 0.1
+        pos_hint : {"x" : 0.3, "top" : 0.8}
+
