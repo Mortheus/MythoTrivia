@@ -106,7 +106,7 @@ windowManager:
 
     Image:
         id: img
-        source:"tree.jpg"
+        source: ""
 
     Button:
         text : "Take new photo"
@@ -177,7 +177,7 @@ windowManager:
             size_hint : 0.4, 0.1
             pos_hint : {"x" : 0.33, "top" : 0.55}
             on_release:
-                app.root.current = 'play'
+                app.root.current = 'categories'
                 root.manager.transition.direction = "down"
         Button:
             text : "Take photo"
@@ -188,6 +188,52 @@ windowManager:
                 root.manager.transition.direction = "down"
 
 
+<CategoriesWindow>:
+    id: categories
+    FloatLayout:
+        orientation: "horizontal"
+        Label:
+            id : info
+            size_hint : 0.8, 0.2
+            pos_hint : {"x" : 0.15, "top" : 0.9}
+            text : "Pick your category!"
+        Button:
+            id: greek
+            text : "Greek"
+            size_hint : 0.3, 0.1
+            pos_hint : {"x" : 0.20, "top" : 0.4}
+            on_release:
+                app.root.current = 'play'
+                root.manager.transition.direction = "down"
+
+        Button:
+            id: roman
+            text : "Roman"
+            size_hint : 0.3, 0.1
+            pos_hint : {"x" : 0.6, "top" : 0.4}
+            on_release:
+                app.root.current = 'play'
+                root.manager.transition.direction = "down"
+
+        Button:
+            id: norse
+            text : "Norse"
+            size_hint : 0.3, 0.1
+            pos_hint : {"x" : 0.20, "top" : 0.6}
+            on_release:
+                app.root.current = 'play'
+                root.manager.transition.direction = "down"
+
+
+        Button:
+            id: combined
+            text : "Combined"
+            size_hint : 0.3, 0.1
+            pos_hint : {"x" : 0.6, "top" : 0.6}
+            on_release:
+                app.root.current = 'play'
+                root.manager.transition.direction = "down"
+
 
 # GUI for pop up window
 <P>:
@@ -195,4 +241,6 @@ windowManager:
         text : "Please enter valid information"
         size_hint : 0.2, 0.1
         pos_hint : {"x" : 0.3, "top" : 0.8}
+
+
 

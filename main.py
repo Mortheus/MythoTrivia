@@ -43,34 +43,45 @@ def popFun():
     window.open()
 
 
-class playWindow(Screen):
-    def __init__(self, **kwargs):
-        super(Screen, self).__init__(**kwargs)
-        self.inside = FloatLayout()
-        entries = myDB.client.test.questions.find_one()
-        self.label = Label(text=entries["question"])
-        self.add_widget(self.label)
-        buttons = [Button(text=i+j) for i, j in zip(["A. ", "B. ", "C. ", "D. "], [string for string in entries["answers"]])]
-        [button.bind(on_press=self.validate_answer) for button in buttons]
-        add_wid = lambda x: self.inside.add_widget(x)
-        for button in buttons:
-            add_wid(button)
-        print(buttons)
-
-    def validate_answer(self, instance):
-        quest = myDB.client.test.questions.find_one({"question": self.label.text})
-        if instance.text[3:] == quest["correct_answer"]:
-            setattr(instance, 'background_color', (0, 1, 0, 1))
-        else:
-            setattr(instance, 'background_color', (1, 0, 0, 1))
+# class playWindow(Screen):
+#     def __init__(self, **kwargs):
+#         super(Screen, self).__init__(**kwargs)
+#         self.inside = FloatLayout()
+#         if CategoriesWindow.pass_category() != "norse":
+#             entries = myDB.client.test.questions.find_one()
+#         else:
+#             entries = myDB.client.questions.norse.find_one()
+#
+#         self.label = Label(text=entries["question"])
+#         self.add_widget(self.label)
+#         buttons = [Button(text=i+j) for i, j in zip(["A. ", "B. ", "C. ", "D. "], [string for string in entries["answers"]])]
+#         [button.bind(on_press=self.validate_answer) for button in buttons]
+#         add_wid = lambda x: self.inside.add_widget(x)
+#         for button in buttons:
+#             add_wid(button)
+#         print(buttons)
+#
+#     def validate_answer(self, instance):
+#         if CategoriesWindow.pass_category() != "norse":
+#             quest = myDB.client.test.questions.find_one({"question": self.label.text})
+#         else:
+#             quest = myDB.client.questions.norse.find_one({"question": self.label.text})
+#         if instance.text[3:] == quest["correct_answer"]:
+#             setattr(instance, 'background_color', (0, 1, 0, 1))
+#         else:
+#             setattr(instance, 'background_color', (1, 0, 0, 1))
 
 class loginWindow(Screen):
     email = ObjectProperty(None)
     pwd = ObjectProperty(None)
+    text = ""
 
     def validate(self):
         if myDB.client.test2.users.find_one({"email": self.email.text, "password": self.pwd.text}):
+            print(myDB.client.test2.users.find_one({"email": self.email.text})["profile_pic"])
+            sm.get_screen("profile").ids.img.source = myDB.client.test2.users.find_one({"email": self.email.text})["profile_pic"]
             sm.current = 'logdata'
+            loginWindow.text = self.email.text
             self.email.text = ""
             self.pwd.text = ""
 
@@ -80,13 +91,12 @@ class loginWindow(Screen):
             self.email.text = ""
             self.pwd.text = ""
 
+    @classmethod
+    def get_current_user(cls):
+        return cls.text
+
 
     def clear_input(self):
-        """
-        imi fac o lista cu obiectele care sunt de tip TextInput
-        lista obtinuta din dict atribut: valoare a clasei de baza
-        dupa le setez atributul de .text pe "", ca sa dispara din widget
-        """
         lista_input_text = [i for i in self.__dict__.values() if isinstance(i, TextInput)]
         for txt in lista_input_text:
             txt.text = ""
@@ -116,10 +126,14 @@ class MyGrid(Screen):
         super(MyGrid, self).__init__(**kwargs)
         self.points = 0
         self.questions = 0
-        # self.canvas.add(Rectangle(size_hint=(1, 1), pos_hint={'x': 1, 'y': 1}))
-        # setattr(self, 'background_color', (1, 0, 0, 1))
-        # Window.clearcolor = (1, 1, 1, 1)
-        entries = list(myDB.client.test.questions.find())
+
+    def first_question(self):
+        print(CategoriesWindow.pass_category())
+        if CategoriesWindow.pass_category() == "norse":
+            entries = list(myDB.client.questions.norse.find())
+        else:
+            entries = list(myDB.client.test.questions.find())
+
         pick_one = random.choice(entries)
 
         self.label = Label(text=pick_one["question"], size_hint=(0.86, 0.30), pos_hint={'x': 0.08, 'y': 0.55})
@@ -140,6 +154,11 @@ class MyGrid(Screen):
         self.generate.bind(on_press=self.generate_question)
         self.add_widget(self.generate)
 
+    def on_pre_enter(self):
+        print(CategoriesWindow.pass_category())
+        self.current_cat = CategoriesWindow.pass_category()
+        self.first_question()
+
     def prepare_for_next(func):
         @functools.wraps(func)
         def inner(self, *args, **kwargs):
@@ -147,7 +166,17 @@ class MyGrid(Screen):
             setattr(self.score, "text", self.score.text[:7] + str(self.points))
             func(self, *args, **kwargs)
             if self.questions > 3:
-                print("ar trebui sa stop")
+                print(loginWindow.get_current_user())
+                current_user = myDB.client.test2.users.find_one({"email": loginWindow.get_current_user()})
+                print(current_user)
+                if current_user["highest_score"] < self.points:
+                    myDB.client.test2.users.update_one({"email": loginWindow.get_current_user()}, {"$set": {"highest_score": self.points}})
+                self.questions = 0
+                self.points = 0
+                setattr(self.label, "text", "")
+                for button in self.buttons:
+                    setattr(button, "text", "")
+                setattr(self.score, "text", self.score.text[:7] + str(self.points))
                 sm.current = "logdata"
 
         return inner
@@ -157,7 +186,10 @@ class MyGrid(Screen):
 
     @prepare_for_next
     def generate_question(self, instance):
-        entries = list(myDB.client.test.questions.find())
+        if self.current_cat != 'norse':
+            entries = list(myDB.client.test.questions.find())
+        else:
+            entries = list(myDB.client.questions.norse.find())
         pick = random.choice(entries)
         setattr(self.label, "text", pick["question"])
         [setattr(button, "text", i+j) for button, i, j in zip(self.buttons, ["A. ", "B. ", "C. ", "D. "], [string for string in pick["answers"]])]
@@ -165,7 +197,10 @@ class MyGrid(Screen):
         print(self.questions)
 
     def validate_answer(self, instance):
-        quest = myDB.client.test.questions.find_one({"question": self.label.text})
+        if self.current_cat != 'norse':
+            quest = myDB.client.test.questions.find_one({"question": self.label.text})
+        else:
+            quest = myDB.client.questions.norse.find_one({"question": self.label.text})
         if instance.text[3:] == quest["correct_answer"]:
             setattr(instance, 'background_color', (0, 1, 0, 1))
             self.points += quest["points"]
@@ -173,13 +208,48 @@ class MyGrid(Screen):
             setattr(instance, 'background_color', (1, 0, 0, 1))
 
 
+
 class logDataWindow(Screen):
     pass
 
 
+class CategoriesWindow(Screen):
+    selected_category = ""
+    def on_pre_enter(self):
+        self.find_category()
+
+    def find_category(self):
+        button_list = [self.ids.greek, self.ids.roman, self.ids.norse, self.ids.combined]
+        for button in button_list:
+            button.my_id = button.text
+            button.bind(on_press=self.get_category)
+    def get_category(self, instance):
+        CategoriesWindow.selected_category = str(instance.my_id).lower()
+        # print(str(instance.my_id))
+
+    @classmethod
+    def pass_category(cls):
+        return cls.selected_category
+
+
+
 class ProfilePicture(Screen):
+
+
     def upload(self):
-        self.ids.img.source = Storage.get_path()
+        path = Storage.get_path()
+        self.ids.img.source = path
+        myDB.client.test2.users.update_one({"email": loginWindow.get_current_user()}, {"$set": {"profile_pic": path}})
+        # print(ProfilePicture.current_user["profile_pic"])
+        current_user = myDB.client.test2.users.find_one({"email": loginWindow.get_current_user()})
+        print(current_user)
+
+
+    @classmethod
+    def load_image(cls):
+        user = loginWindow.get_current_user()
+        current_user = myDB.client.test2.users.find_one({"email": user})
+
 
 
 class windowManager(ScreenManager):
@@ -200,7 +270,6 @@ class Storage(SwipeScreen):
     @classmethod
     def get_path(cls):
         imag = cls.path
-        print(cls.path)
         return imag
 
 
@@ -215,6 +284,7 @@ sm.add_widget(MyGrid(name='play'))
 sm.add_widget(PhotoScreen(name='photo'))
 sm.add_widget(ProfilePicture(name='profile'))
 sm.add_widget(Storage(name="storage"))
+sm.add_widget(CategoriesWindow(name="categories"))
 
 
 if platform == 'android':

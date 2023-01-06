@@ -137,11 +137,11 @@ if __name__ == "__main__":
 
     test_db = myDB.client.test# metoda de a accesa una dintre colectii, mai avem si varianta dictionar cu client["test"]
 
-    collections = test_db.list_collection_names()
-    player = Player("andrei", "test", "email")
-    myDB.insert_doc_to_collection("test", "test", player)
-    myDB.insert_docs_to_collection("test", "test")
-    myDB.delete_docs_from_collection("test", "test")
+    # collections = test_db.list_collection_names()
+    # player = Player("andrei", "test", "email")
+    # myDB.insert_doc_to_collection("test", "test", player)
+    # myDB.insert_docs_to_collection("test", "test")
+    # myDB.delete_docs_from_collection("test", "test")
     smth = {
         "question": "Who are considered the big three in Greek Myth?",
         "answers": ("Zeus, Hades, Poseidon", "Hera, Poseidon, Demeter", "Zeus, Hades, Athena", "Zeus, Poseidon, Hermes"),
@@ -161,5 +161,30 @@ if __name__ == "__main__":
         "points": 5
     }
     # myDB.add_question_to_collection("test", "questions", smth)
-    myDB.add_question_to_collection("test", "questions", smth2)
-    print(smth["answers"][2])
+    # myDB.add_question_to_collection("test", "questions", smth2)
+    # print(smth["answers"][2])
+
+    norse_1 = {
+        "question": "Which day of the week is derived from the name of the Norse God of Thunder?",
+        "answers": ("Thursday", "Tuesday", "Saturday", "Friday"),
+        "correct_answer": "Thursday",
+        "points": 5
+    }
+
+    norse_2 = {
+        "question": "In Norse mythology, where did the souls of warriors killed in battle go after their deaths?",
+        "answers": ("Elysium", "Tartarus", "Valhalla", "Alfheim"),
+        "correct_answer": "Valhalla",
+        "points": 5
+    }
+
+    norse_3 = {
+        "question": "According to Norse legend, what animals pulled Thor's chariot across the sky?",
+        "answers": ("Goats", "Pegasi", "Cats", "Eagles"),
+        "correct_answer": "Goats",
+        "points": 5
+    }
+    myDB.add_question_to_collection("questions", "norse", norse_1)
+    myDB.add_question_to_collection("questions", "norse", norse_2)
+    myDB.add_question_to_collection("questions", "norse", norse_3)
+
