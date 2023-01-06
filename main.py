@@ -129,10 +129,23 @@ class MyGrid(Screen):
 
     def first_question(self):
         print(CategoriesWindow.pass_category())
-        if CategoriesWindow.pass_category() == "norse":
+        if CategoriesWindow.pass_category() == 'norse':
             entries = list(myDB.client.questions.norse.find())
-        else:
-            entries = list(myDB.client.test.questions.find())
+        elif CategoriesWindow.pass_category() == 'greek':
+            entries = list(myDB.client.questions.greek.find())
+        elif CategoriesWindow.pass_category() == 'roman':
+            entries = list(myDB.client.questions.roman.find())
+        elif CategoriesWindow.pass_category() == 'combined':
+            entries = list(myDB.client.questions.combined.find())
+        # match CategoriesWindow.pass_category():
+        #     case "norse":
+        #         entries = list(myDB.client.questions.norse.find())
+        #     case "greek":
+        #         entries = list(myDB.client.questions.greek.find())
+        #     case "roman":
+        #         entries = list(myDB.client.questions.roman.find())
+        #     case "combined":
+        #         entries = list(myDB.client.questions.combined.find())
 
         pick_one = random.choice(entries)
 
@@ -186,10 +199,23 @@ class MyGrid(Screen):
 
     @prepare_for_next
     def generate_question(self, instance):
-        if self.current_cat != 'norse':
-            entries = list(myDB.client.test.questions.find())
-        else:
+        if self.current_cat == 'norse':
             entries = list(myDB.client.questions.norse.find())
+        elif self.current_cat == 'greek':
+            entries = list(myDB.client.questions.greek.find())
+        elif self.current_cat == 'roman':
+            entries = list(myDB.client.questions.roman.find())
+        elif self.current_cat == 'combined':
+            entries = list(myDB.client.questions.combined.find())
+        # match self.current_cat:
+        #     case "norse":
+        #         entries = list(myDB.client.questions.norse.find())
+        #     case "greek":
+        #         entries = list(myDB.client.questions.greek.find())
+        #     case "roman":
+        #         entries = list(myDB.client.questions.roman.find())
+        #     case "combined":
+        #         entries = list(myDB.client.questions.combined.find())
         pick = random.choice(entries)
         setattr(self.label, "text", pick["question"])
         [setattr(button, "text", i+j) for button, i, j in zip(self.buttons, ["A. ", "B. ", "C. ", "D. "], [string for string in pick["answers"]])]
@@ -197,10 +223,24 @@ class MyGrid(Screen):
         print(self.questions)
 
     def validate_answer(self, instance):
-        if self.current_cat != 'norse':
-            quest = myDB.client.test.questions.find_one({"question": self.label.text})
-        else:
+        if self.current_cat == 'norse':
             quest = myDB.client.questions.norse.find_one({"question": self.label.text})
+        elif self.current_cat == 'greek':
+            quest = myDB.client.questions.greek.find_one({"question": self.label.text})
+        elif self.current_cat == 'roman':
+            quest = myDB.client.questions.roman.find_one({"question": self.label.text})
+        elif self.current_cat == 'combined':
+            quest = myDB.client.questions.combined.find_one({"question": self.label.text})
+        # match self.current_cat:
+        #     case "norse":
+        #         quest = myDB.client.questions.norse.find_one({"question": self.label.text})
+        #     case "greek":
+        #         quest = myDB.client.questions.greek.find_one({"question": self.label.text})
+        #     case "roman":
+        #         quest = myDB.client.questions.roman.find_one({"question": self.label.text})
+        #     case "combined":
+        #         quest = myDB.client.questions.combined.find_one({"question": self.label.text})
+
         if instance.text[3:] == quest["correct_answer"]:
             setattr(instance, 'background_color', (0, 1, 0, 1))
             self.points += quest["points"]

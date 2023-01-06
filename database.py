@@ -184,7 +184,174 @@ if __name__ == "__main__":
         "correct_answer": "Goats",
         "points": 5
     }
-    myDB.add_question_to_collection("questions", "norse", norse_1)
-    myDB.add_question_to_collection("questions", "norse", norse_2)
-    myDB.add_question_to_collection("questions", "norse", norse_3)
 
+    norse_4 = {
+        "question": "Which handsome god was killed by a twig of mistletoe in Norse mythology?",
+        "answers": ("Loki", "Tyr", "Balder", "Frey"),
+        "correct_answer": "Balder",
+        "points": 5
+    }
+
+    norse_5 = {
+        "question": "Which of the following are the children of Loki with Angrboda?",
+        "answers": ("Fenrir, Jormungand, Hel", "Fenrir, Sleipnir, Hel", "Narfi, Vali, Sleipnir", "Fenrir, Vali, Jormungand"),
+        "correct_answer": "Fenrir, Jormungand, Hel",
+        "points": 5
+    }
+
+    norse_6 = {
+        "question": "What did Thor do when Mjolnir was stolen by the ice giants?",
+        "answers": ("Asked the dwarfs for another one.", "Dress up as a bride.", "Got drunk on mead.", "Ate his two goats."),
+        "correct_answer": "Asked the dwarfs for another one.",
+        "points": 5
+    }
+
+
+    norse_7 = {
+        "question": "Who is considered Thor's bane?",
+        "answers": ("Fenrir", "Jormungand", "Laufey", "Loki"),
+        "correct_answer": "Fenrir",
+        "points": 5
+    }
+
+    norse_8 = {
+        "question": "What was the reason for Frey's death?",
+        "answers": ("Got betrayed by Freya.", "He didn't have his sword.", "Shot with a mistletoe.", "Bitten by Fenrir."),
+        "correct_answer": "He didn't have his sword.",
+        "points": 5
+    }
+
+
+    # myDB.add_question_to_collection("questions", "norse", norse_1)
+    # myDB.add_question_to_collection("questions", "norse", norse_2)
+    # myDB.add_question_to_collection("questions", "norse", norse_3)
+    norse_list = [norse_4, norse_5, norse_6, norse_7, norse_8]
+    # for norse in norse_list:
+    #     myDB.add_question_to_collection("questions", "norse", norse)
+
+    greek_1 = {
+        "question": "Who was the supreme god?",
+        "answers": ("Zeus", "Hestia", "Poseidon", "Hera"),
+        "correct_answer": "Zeus",
+        "points": 5
+    }
+
+    greek_2 = {
+        "question": "Who has been turned into stone with the Gorgons head?",
+        "answers": ("King Pygmalion Aphrodite", "Hermes", "Atlas", "Astarte"),
+        "correct_answer": "Atlas",
+        "points": 5
+    }
+
+    greek_3 = {
+        "question": "What goddess has a daughter who is cursed to stay in the underworld with Hades for half of the year?",
+        "answers": ("Vor", "Poseidon", "Apollo", "Demeter"),
+        "correct_answer": "Demeter",
+        "points": 5
+    }
+
+    greek_4 = {
+        "question": "Who killed his father and married his mother?",
+        "answers": ("Oedipus", "Apollo", "Perseus", "Nike"),
+        "correct_answer": "Oedipus",
+        "points": 5
+    }
+
+    greek_5 = {
+        "question": "What is the name of river of oaths?",
+        "answers": ("Struma", "Styx", "Pactolus", "Orontes River"),
+        "correct_answer": "Styx",
+        "points": 5
+    }
+
+    greek_6 = {
+        "question": "Who is known for flying too close to the sun?",
+        "answers": ("Atlas", "Apollo", "Icarus", "Kronos"),
+        "correct_answer": "Icarus",
+        "points": 5
+    }
+
+    greek_7 = {
+        "question": "Who is the goddess of beauty and love?",
+        "answers": ("Hestia", "Aphrodite", "Athena", "Hera"),
+        "correct_answer": "Aphrodite",
+        "points": 5
+    }
+
+    greek_8 = {
+        "question": " What is the Greek name for Jupiter?",
+        "answers": ("Zeus", "Jofur", "Athena", "Meginstjarna"),
+        "correct_answer": "Zeus",
+        "points": 5
+    }
+
+    greek_list = [greek_1, greek_2, greek_3, greek_4, greek_5, greek_6, greek_7, greek_8]
+    # for greek in greek_list:
+    #     myDB.add_question_to_collection("questions", "greek", greek)
+
+    roman_1 = {
+        "question": "In roman Mythology, who was the messenger of the Gods",
+        "answers": ("Mercury", "Mars", "Ceres", "Vulcano"),
+        "correct_answer": "Mercury",
+        "points": 5
+    }
+
+    roman_2 = {
+        "question": "Who is the Roman goddess of fortune?",
+        "answers": ("Quirinus", "Ceres", "Fortuna", "Saturno"),
+        "correct_answer": "Fortuna",
+        "points": 5
+    }
+
+    roman_3 = {
+        "question": "What is the food of the gods in Roman mythology?",
+        "answers": ("Bread", "Kaiju", "Meat", "Walnuts"),
+        "correct_answer": "Walnuts",
+        "points": 5
+    }
+
+    roman_4 = {
+        "question": "Which planet is named after the Roman god of war?",
+        "answers": ("Mars", "Jupiter", "Uranus", "Venus"),
+        "correct_answer": "Mars",
+        "points": 5
+    }
+
+    roman_5 = {
+        "question": "What is the roman name for Hades?",
+        "answers": ("Mars", "Pluto", "Uranus", "Venus"),
+        "correct_answer": "Pluto",
+        "points": 5
+    }
+
+    roman_6 = {
+        "question": "What is the roman name for Dionysus?",
+        "answers": ("Eros", "Jupiter", "Bacchus", "Venus"),
+        "correct_answer": "Bacchus",
+        "points": 5
+    }
+
+    roman_7 = {
+        "question": "Which twins were said to be the founders of Rome?",
+        "answers": ("Apollo and Artemis", "Hypnos and Thanatos", "Heracles nad Iphicles", "Romulus and Remus"),
+        "correct_answer": "Romulus and Remus",
+        "points": 5
+    }
+
+    roman_8 = {
+        "question": "According to the Roman gods, who was the goddess of love, sexuality, beauty and gardens?",
+        "answers": ("Diana", "Bellona", "Venus", "Minerva"),
+        "correct_answer": "Venus",
+        "points": 5
+    }
+
+
+    roman_list = [roman_1, roman_2, roman_3, roman_4, roman_5, roman_6, roman_7, roman_8]
+    # for roman in roman_list:
+    #     myDB.add_question_to_collection("questions", "roman", roman)
+
+    all_questions = norse_list + roman_list + greek_list
+    for question in all_questions:
+        myDB.add_question_to_collection("questions", "combined", question)
+
+    print(all_questions)
