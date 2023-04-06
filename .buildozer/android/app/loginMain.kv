@@ -1,0 +1,1082 @@
+#:import platform kivy.utils.platform
+WindowManager:
+    loginWindow:
+    signupWindow:
+    logDataWindow:
+    playWindow:
+
+# GUI for the login window
+<LoginWindow>:
+    email : email
+    pwd : pwd
+    FloatLayout:
+        canvas.before:
+            Color:
+                rgba: (229/255, 235/255, 233/255, 1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        MDLabel:
+            id: wl
+            text: "MythoTrivia"
+            font_size: 80
+            halign: 'center'
+            size_hint: .5, .4
+            pos_hint: {"center_x": .5, "center_y": .8}
+            height: self.texture_size[1]
+            padding_y: 15
+
+        MDTextField:
+            id: email
+            hint_text: "example@mail.com"
+            icon_right: "account"
+            size_hint: .4, .1
+            width: 200
+            font_size: 54
+            pos_hint: {"center_x": .5, "center_y": .6}
+
+        MDTextField:
+            id: pwd
+            hint_text: "password"
+            icon_right: "eye-off"
+            size_hint: .4, .1
+            width: 200
+            font_size: 54
+            pos_hint: {"center_x": .5, "center_y": .4}
+            password: True
+
+        MDTextButton:
+            id: create
+            text: "[color=57b3e7][i]Create an \n\n  account[/i][/color]"
+            markup: True
+            font_size: 36
+            pos_hint: {"center_x": .8, "center_y": .05}
+            on_release:
+            	app.root.current = 'signup'
+            	root.manager.transition.direction = "left"
+
+        MDFloatLayout:
+            md_bg_color: rgba(178, 178, 178, 255)
+            size_hint: .1, .002
+            pos_hint: {"center_x": .8, "center_y": 0.05}
+
+        MDFloatLayout:
+            md_bg_color: rgba(178, 178, 178, 255)
+            size_hint: .1, .002
+            pos_hint: {"center_x": .8, "center_y": 0.017}
+
+        MDRoundFlatButton:
+            md_bg_color: rgba(75, 235, 168, 255)
+            background_normal: ""
+            size_hint: .2, .1
+            text: "[color=000000]LOG IN[/color]"
+            markup: True
+            font_size: 36
+            pos_hint: {"center_x": .5, "center_y": .2}
+            on_release:
+                root.validate()
+                root.manager.transition.direction = "up"
+
+        MDTextButton:
+            id: forgot
+            text: "[color=57b3e7][i]Forgot Password?[/i][/color]"
+            markup: True
+            font_size: 36
+            pos_hint: {"center_x": .6, "center_y": .32}
+            on_press:
+                app.root.current = 'forgot'
+                root.manager.transition.direction = 'right'
+
+        MDFloatLayout:
+            md_bg_color: rgba(178, 178, 178, 255)
+            size_hint: .2, .002
+            pos_hint: {"center_x": .6, "center_y": .295}
+
+# GUI for the signup window
+<SignupWindow>:
+    name2 : name2
+    email : email
+    pwd : pwd
+    FloatLayout:
+        canvas.before:
+            Color:
+                rgba: (229/255, 235/255, 233/255, 1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        MDLabel:
+            id: wl
+            text: "MythoTrivia"
+            font_size: 80
+            halign: 'center'
+            size_hint: .5, .4
+            pos_hint: {"center_x": .5, "center_y": .8}
+            height: self.texture_size[1]
+            padding_y: 15
+
+        MDTextField:
+            id: name2
+            hint_text: "username"
+            icon_right: "account"
+            size_hint: .4, .1
+            #width: 200
+            font_size: 54
+            pos_hint: {"center_x": .5, "center_y": .655}
+
+        MDTextField:
+            id: email
+            hint_text: "email"
+            icon_right: "email"
+            size_hint: .4, .1
+            #width: 200
+            font_size: 54
+            pos_hint: {"center_x": .5, "center_y": .455}
+
+
+        MDTextField:
+            id: pwd
+            hint_text: "password"
+            icon_right: "eye-off"
+            size_hint: .4, .1
+            #width: 200
+            font_size: 54
+            pos_hint: {"center_x": .5, "center_y": .255}
+            password: True
+
+        MDRoundFlatButton:
+            md_bg_color: rgba(75, 235, 168, 255)
+            background_normal: ""
+            size_hint: .2, .1
+            text: "[color=000000]Register[/color]"
+            markup: True
+            font_size: 36
+            pos_hint: {"center_x": .5, "center_y": .15}
+            on_press:
+                root.signupbtn()
+                root.manager.transition.direction: "right"
+
+        MDTextButton:
+            id: forgot
+            text: "[color=57b3e7][i]Already have an \n        account[/i][/color]"
+            markup: True
+            font_size: 36
+            pos_hint: {"center_x": .8, "center_y": .05}
+            on_release:
+                root.manager.current = 'login'
+                root.manager.transition.direction: "right"
+
+        MDFloatLayout:
+            md_bg_color: rgba(178, 178, 178, 255)
+            size_hint: .1, .002
+            pos_hint: {"center_x": .8, "center_y": 0.05}
+
+        MDFloatLayout:
+            md_bg_color: rgba(178, 178, 178, 255)
+            size_hint: .1, .002
+            pos_hint: {"center_x": .8, "center_y": 0.017}
+
+
+
+<ProfilePicture>:
+    id:profile
+
+    Image:
+        id: img
+        source: ""
+
+    Button:
+        text : "Take new photo"
+        font_size: 15
+        size_hint : 0.2, 0.07
+        pos_hint : {"x" : 0.3, "top" : 0.2}
+        on_release:
+            app.root.current = 'photo'
+            root.manager.transition.direction = "left"
+
+    Button:
+        text : "Upload from storage"
+        font_size: 15
+        size_hint : 0.2, 0.07
+        pos_hint : {"x" : 0.6, "top" : 0.2}
+        on_release:
+            app.root.current = 'storage'
+            root.manager.transition.direction = "left"
+
+    Button:
+        text: "Confirm"
+        font_size: 15
+        size_hint: 0.1, 0.03
+        pos_hint: {"x": 0.4, "top": 0.1}
+        on_press: root.upload()
+
+
+    Button:
+        text: "Back"
+        font_size: 15
+        size_hint: 0.1, 0.03
+        pos_hint: {"x": 0.8, "top": 0.1}
+        on_release:
+            app.root.current = 'logdata'
+            root.manager.transition.direction = "left"
+
+
+<Storage>:
+    id:storage
+
+    BoxLayout:
+        canvas.before:
+            Color:
+                rgba: (204/255, 200/255, 207/255, 1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        orientation: "vertical"
+        size: root.width, root.height
+
+        Image:
+            id: my_image
+            source: ""
+
+        FileChooserListView:
+            path: '/storage/emulated/0/DCIM/MythoMagic' if platform == 'android' else '/'
+            id:filechooser
+            on_selection: storage.preview_image(filechooser.selection)
+
+
+
+# GUI to show validation result
+<LogDataWindow>:
+    id: info
+    FloatLayout:
+        canvas.before:
+            Color:
+                rgba: (204/255, 200/255, 207/255, 1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        MDFloatLayout:
+            id: upbar
+            size_hint: 1, .097
+            line_color: "black"
+            pos_hint: {"center_x": .5, "center_y": .955}
+            canvas.before:
+                Color:
+                    rgba: (41/255, 145/255, 103/255, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            MDLabel:
+                id: username
+                text: "Username"
+                pos_hint: {"center_x": .52, "center_y": .52}
+                font_size: 60
+
+            MDRoundFlatButton:
+                id: profile_image
+                size_hint: .035, .975
+                pos_hint: {"center_x": .937, "center_y": .5}
+                md_bg_color: "white"
+                md_bg_color: (41/255, 145/255, 103/255, 1)
+                line_color: [0,0,0,0]
+                on_press:
+                    app.root.current = 'settings'
+                    root.manager.transition.direction = 'down'
+                MDIcon:
+                    icon: "account-circle"
+                    font_size: dp(50)
+
+
+        MDBoxLayout:
+            id: content
+            size_hint: 1, 0.8045
+            pos_hint: {"center_x": .5 , "center_y": .504}
+            canvas.before:
+                Color:
+                    rgba: (229/255, 235/255, 233/255, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            MDRectangleFlatButton:
+                id: start
+                text: "Start playing"
+                font_size: "40sp"
+                size_hint: .4, .5
+                pos_hint: {"center_x": .5, "center_y": .5}
+                line_color: [0,0,0,0]
+                on_release:
+                    app.root.current = 'categories'
+                    root.manager.transition.direction = 'down'
+
+        MDGridLayout:
+            id: downbar
+            cols: 2
+            size_hint: 1, .1
+            pos_hint: {"center_x": .5, "center_y": .05}
+            canvas.before:
+                Color:
+                    rgba: (41/255, 145/255, 103/255, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+
+            MDRectangleFlatButton:
+                id: stats
+                size_hint: 1, 1
+                line_color: "black"
+                pos_hint: {"center_x": 1, "center_y": .1}
+                on_press:
+                    app.root.current = 'stats'
+                    root.manager.transition.direction = 'down'
+                MDIcon:
+                    icon: "chart-bar"
+                    font_size: dp(50)
+
+            MDRectangleFlatButton:
+                id: home
+                size_hint: 1, 1
+                line_color: "black"
+                pos_hint: {"center_x": 1, "center_y": .1}
+
+                MDIcon:
+                    icon: "home"
+                    font_size: dp(50)
+
+
+<CategoriesWindow>:
+    id: categories
+    FloatLayout:
+        canvas.before:
+            Color:
+                rgba: (204/255, 200/255, 207/255, 1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        MDFloatLayout:
+            id: upbar
+            size_hint: 1, .097
+            line_color: "black"
+            pos_hint: {"center_x": .5, "center_y": .955}
+            canvas.before:
+                Color:
+                    rgba: (41/255, 145/255, 103/255, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            MDLabel:
+                id: username
+                text: "Username"
+                pos_hint: {"center_x": .52, "center_y": .52}
+                font_size: 60
+
+            MDRoundFlatButton:
+                id: profile_image
+                size_hint: .035, .975
+                pos_hint: {"center_x": .937, "center_y": .5}
+                md_bg_color: (41/255, 145/255, 103/255, 1)
+                line_color: [0,0,0,0]
+                on_press:
+                    app.root.current = 'settings'
+                MDIcon:
+                    icon: "account-circle"
+                    font_size: dp(50)
+
+
+
+        MDFloatLayout:
+            id: content
+            size_hint: 1, 0.8045
+            pos_hint: {"center_x": .5 , "center_y": .504}
+            canvas.before:
+                Color:
+                    rgba: (229/255, 235/255, 233/255, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            MDLabel:
+                id: username1
+                text: "Pick your myths!"
+                pos_hint: {"center_x": .85, "center_y": .9}
+                font_size: 50
+
+            MDRoundFlatButton:
+                id: greek
+                text: "[color=000000]Greek[/color]"
+                size_hint: 0.3, 0.3
+                pos_hint: {"center_x": .5 , "center_y": .65 }
+                font_size: "25sp"
+                md_bg_color: rgba(75, 235, 168, 255)
+                line_color: [0,0,0,0]
+                on_release:
+                    app.root.current = 'play'
+                    root.manager.transition.direction = 'right'
+
+            MDRoundFlatButton:
+                id: roman
+                text: "[color=000000]Roman[/color]"
+                size_hint: 0.3, 0.3
+                pos_hint: {"center_x": .2 , "center_y": .45 }
+                font_size: "25sp"
+                md_bg_color: rgba(75, 235, 168, 255)
+                line_color: [0,0,0,0]
+                on_release:
+                    app.root.current = 'play'
+                    root.manager.transition.direction = 'right'
+
+            MDRoundFlatButton:
+                id: norse
+                text: "[color=000000]Norse[/color]"
+                size_hint: 0.3, 0.3
+                pos_hint: {"center_x": .8 , "center_y": .45 }
+                font_size: "25sp"
+                md_bg_color: rgba(75, 235, 168, 255)
+                line_color: [0,0,0,0]
+                on_release:
+                    app.root.current = 'play'
+                    root.manager.transition.direction = 'right'
+
+            MDRoundFlatButton:
+                id: combined
+                text: "[color=000000]Combined[/color]"
+                size_hint: 0.3, 0.3
+                font_size: "25sp"
+                pos_hint: {"center_x": .5 , "center_y": .18 }
+                md_bg_color: rgba(75, 235, 168, 255)
+                line_color: [0,0,0,0]
+                on_release:
+                    app.root.current = 'play'
+                    root.manager.transition.direction = 'right'
+
+
+        MDGridLayout:
+            id: downbar
+            cols: 2
+            size_hint: 1, .1
+            pos_hint: {"center_x": .5, "center_y": .05}
+            canvas.before:
+                Color:
+                    rgba: (41/255, 145/255, 103/255, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+
+            MDRectangleFlatButton:
+                id: stats
+                size_hint: 1, 1
+                line_color: "black"
+                pos_hint: {"center_x": 1, "center_y": .1}
+                on_press:
+                    app.root.current = 'stats'
+                    root.manager.transition.direction = 'down'
+
+                MDIcon:
+                    icon: "chart-bar"
+                    font_size: dp(50)
+
+            MDRectangleFlatButton:
+                id: home
+                size_hint: 1, 1
+                line_color: "black"
+                pos_hint: {"center_x": 1, "center_y": .1}
+                on_press:
+                    app.root.current = 'logdata'
+                    root.manager.transition.direction = 'down'
+                MDIcon:
+                    icon: "home"
+                    font_size: dp(50)
+
+
+
+# GUI for pop up window
+<P>:
+    Label:
+        text : "Please enter valid information"
+        size_hint : 0.2, 0.1
+        pos_hint : {"x" : 0.3, "top" : 0.8}
+
+<ChangePicture>:
+    FloatLayout:
+
+        FitImage:
+            id: img
+            size_hint: 1, 1
+            pos_hint: {"center_x": .5, "top": 1}
+            source: ""
+
+
+        MDGridLayout:
+            id: bar
+            cols: 2
+            size_hint: 1, .1
+            pos_hint: {"center_x": .5, "center_y": .05}
+            canvas.before:
+                Color:
+                    rgba: (41/255, 145/255, 103/255, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+
+            MDRectangleFlatButton:
+                id: stats
+                size_hint: 1, 1
+                line_color: "black"
+                pos_hint: {"center_x": 1, "center_y": .1}
+                font_size: "30sp"
+                text: "New Photo"
+                line_color: "black"
+                on_press:
+                    app.root.current = 'photo'
+                    root.manager.transition.direction = 'right'
+
+            MDRectangleFlatButton:
+                id: home
+                size_hint: 1, 1
+                line_color: "black"
+                pos_hint: {"center_x": 1, "center_y": .1}
+                text: "Upload"
+                line_color: "black"
+                font_size: "30sp"
+                on_press:
+                    app.root.current = 'storage'
+                    root.manager.transition.direction = 'right'
+        MDRoundFlatButton:
+            id: fin
+            size_hint: .075, .075
+            pos_hint: {"center_x": .5, "center_y": .095}
+            md_bg_color: rgba(255, 255, 255, 255)
+            on_press:
+                root.upload()
+                app.root.current = 'settings'
+
+
+<ProfileSettings>:
+    FloatLayout:
+        canvas.before:
+            Color:
+                rgba: (204/255, 200/255, 207/255, 1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        MDFloatLayout:
+            id: upbar
+            size_hint: 1, .097
+            line_color: "black"
+            pos_hint: {"center_x": .5, "center_y": .955}
+            canvas.before:
+                Color:
+                    rgba: (41/255, 145/255, 103/255, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            MDLabel:
+                id: username
+                text: "Username"
+                pos_hint: {"center_x": .52, "center_y": .52}
+                font_size: 60
+
+            MDRoundFlatButton:
+                id: profile_image
+                size_hint: .035, .975
+                pos_hint: {"center_x": .937, "center_y": .5}
+                md_bg_color: (41/255, 145/255, 103/255, 1)
+                line_color: [0,0,0,0]
+                on_press:
+                    app.root.current = 'settings'
+                MDIcon:
+                    icon: "account-circle"
+                    font_size: dp(50)
+
+
+
+        MDFloatLayout:
+            id: content
+            size_hint: 1, 0.8045
+            pos_hint: {"center_x": .5 , "center_y": .504}
+            canvas.before:
+                Color:
+                    rgba: (229/255, 235/255, 233/255, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            FitImage:
+                id: img
+                size_hint: .5, .3
+                pos_hint: {"center_x": .5, "center_y": .75}
+                source: ""
+                radius: [36, 36, 36, 36]
+
+
+            MDRoundFlatButton:
+                id: btn_img
+                size_hint: .1, .1
+                pos_hint: {"center_x": .5, "center_y": .75}
+                background_active: self.background_normal
+                line_color: [0, 0, 0, 0]
+                on_press:
+                    app.root.current = 'cam'
+                    root.manager.transition.direction = 'down'
+                    #root.upload()
+
+            MDRectangleFlatButton:
+                id: change_user
+                size_hint: .4, .05
+                pos_hint: {"center_x": .5, "center_y": .45}
+                line_color: "black"
+                text: "Change Username"
+                on_press:
+                    app.root.current = 'update_user'
+                    root.manager.transition.direction = 'right'
+
+            MDRectangleFlatButton:
+                id: change_pass
+                size_hint: .4, .05
+                pos_hint: {"center_x": .5, "center_y": .3}
+                line_color: "black"
+                text: "Change Password"
+                on_press:
+                    app.root.current = 'update_user'
+                    root.manager.transition.direction = 'right'
+
+            MDRectangleFlatButton:
+                id: logout
+                size_hint: .4, .05
+                pos_hint: {"center_x": .5, "center_y": .15}
+                line_color: "black"
+                text: "Logout"
+                on_press:
+                    app.root.current = 'login'
+                    root.manager.transition.direction = 'right'
+
+
+        MDGridLayout:
+            id: downbar
+            cols: 2
+            size_hint: 1, .1
+            pos_hint: {"center_x": .5, "center_y": .05}
+            canvas.before:
+                Color:
+                    rgba: (41/255, 145/255, 103/255, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+
+            MDRectangleFlatButton:
+                id: stats
+                size_hint: 1, 1
+                line_color: "black"
+                pos_hint: {"center_x": 1, "center_y": .1}
+                on_press:
+                    app.root.current = 'stats'
+                    root.manager.transition.direction = 'down'
+                MDIcon:
+                    icon: "chart-bar"
+                    font_size: dp(50)
+
+            MDRectangleFlatButton:
+                id: home
+                size_hint: 1, 1
+                line_color: "black"
+                pos_hint: {"center_x": 1, "center_y": .1}
+                on_press:
+                    app.root.current = 'logdata'
+                    root.manager.transition.direction = 'down'
+                MDIcon:
+                    icon: "home"
+                    font_size: dp(50)
+
+
+<MyGrid>:
+    FloatLayout:
+        canvas.before:
+            Color:
+                rgba: (204/255, 200/255, 207/255, 1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        MDFloatLayout:
+            id: upbar
+            size_hint: 1, .097
+            line_color: "black"
+            pos_hint: {"center_x": .5, "center_y": .955}
+            canvas.before:
+                Color:
+                    rgba: (41/255, 145/255, 103/255, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            MDLabel:
+                id: username
+                text: "Username"
+                pos_hint: {"center_x": .52, "center_y": .52}
+                font_size: 60
+
+            MDRoundFlatButton:
+                id: profile_image
+                size_hint: .035, .975
+                pos_hint: {"center_x": .937, "center_y": .5}
+                md_bg_color: (41/255, 145/255, 103/255, 1)
+                line_color: [0,0,0,0]
+                on_press:
+                    app.root.current = 'settings'
+                MDIcon:
+                    icon: "account-circle"
+                    font_size: dp(50)
+
+        MDFloatLayout:
+            id: downbar
+            size_hint: 1, .1
+            pos_hint: {"center_x": .5, "center_y": .05}
+            canvas.before:
+                Color:
+                    rgba: (41/255, 145/255, 103/255, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+
+<Statistics>:
+    id:statistics
+    FloatLayout:
+        canvas.before:
+            Color:
+                rgba: (204/255, 200/255, 207/255, 1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        MDFloatLayout:
+            id: upbar
+            size_hint: 1, .097
+            line_color: "black"
+            pos_hint: {"center_x": .5, "center_y": .955}
+            canvas.before:
+                Color:
+                    rgba: (41/255, 145/255, 103/255, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            MDLabel:
+                id: username
+                text: "Username"
+                pos_hint: {"center_x": .52, "center_y": .52}
+                font_size: 60
+
+            MDRoundFlatButton:
+                id: profile_image
+                size_hint: .035, .975
+                pos_hint: {"center_x": .937, "center_y": .5}
+                md_bg_color: (41/255, 145/255, 103/255, 1)
+                line_color: [0,0,0,0]
+                on_press:
+                    app.root.current = 'settings'
+                MDIcon:
+                    icon: "account-circle"
+                    font_size: dp(50)
+
+
+
+        MDFloatLayout:
+            id: content
+            size_hint: 1, 0.8045
+            pos_hint: {"center_x": .5 , "center_y": .504}
+            canvas.before:
+                Color:
+                    rgba: (229/255, 235/255, 233/255, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            MDGridLayout:
+                id: stats
+                size_hint: 1, 0.1
+                pos_hint: {"center_x": .5, "center_y": .95}
+                cols: 4
+
+                MDRectangleFlatButton:
+                    id: greek
+                    line_color: "black"
+                    text: "[color=000000]Greek[/color]"
+                    size_hint: 1, .2
+                    on_press:
+                        root.update_category(self)
+
+                MDRectangleFlatButton:
+                    id: roman
+                    line_color: "black"
+                    text: "[color=000000]Roman[/color]"
+                    size_hint: 1, .2
+                    on_press:
+                        root.update_category(self)
+
+                MDRectangleFlatButton:
+                    id: norse
+                    line_color: "black"
+                    text: "[color=000000]Norse[/color]"
+                    size_hint: 1, .2
+                    on_press:
+                        root.update_category(self)
+
+                MDRectangleFlatButton:
+                    id: combined
+                    line_color: "black"
+                    text: "[color=000000]Combined[/color]"
+                    size_hint: 1, .2
+                    on_press:
+                        root.update_category(self)
+
+            MDLabel:
+                id: highest
+                text: "Highest score is: "
+                font_size: 60
+                halign: 'center'
+                size_hint: .5, .4
+                pos_hint: {"center_x": .25, "center_y": .85}
+
+            MDLabel:
+                id: played
+                text: "Number of games played: "
+                font_size: 60
+                halign: 'center'
+                size_hint: .5, .4
+                pos_hint: {"center_x": .25, "center_y": .7}
+
+        MDGridLayout:
+            id: downbar
+            cols: 2
+            size_hint: 1, .1
+            pos_hint: {"center_x": .5, "center_y": .05}
+            canvas.before:
+                Color:
+                    rgba: (41/255, 145/255, 103/255, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+
+            MDRectangleFlatButton:
+                id: stats
+                size_hint: 1, 1
+                line_color: "black"
+                pos_hint: {"center_x": 1, "center_y": .1}
+
+                MDIcon:
+                    icon: "chart-bar"
+                    font_size: dp(50)
+
+            MDRectangleFlatButton:
+                id: home
+                size_hint: 1, 1
+                line_color: "black"
+                pos_hint: {"center_x": 1, "center_y": .1}
+                on_press:
+                    app.root.current = 'logdata'
+                    root.manager.transition.direction = 'down'
+                MDIcon:
+                    icon: "home"
+                    font_size: dp(50)
+
+
+<ForgotPassword>:
+    email : email
+    pwd : pwd
+    FloatLayout:
+        canvas.before:
+            Color:
+                rgba: (229/255, 235/255, 233/255, 1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        MDLabel:
+            id: wl
+            text: "MythoTrivia"
+            font_size: 80
+            halign: 'center'
+            size_hint: .5, .4
+            pos_hint: {"center_x": .5, "center_y": .8}
+            height: self.texture_size[1]
+            padding_y: 15
+
+        MDTextField:
+            id: email
+            hint_text: "example@mail.com"
+            icon_right: "account"
+            size_hint: .4, .1
+            width: 200
+            font_size: 54
+            pos_hint: {"center_x": .5, "center_y": .6}
+
+        MDTextField:
+            id: pwd
+            hint_text: "new password"
+            icon_right: "eye-off"
+            size_hint: .4, .1
+            width: 200
+            font_size: 54
+            pos_hint: {"center_x": .5, "center_y": .4}
+            password: True
+
+        MDRoundFlatButton:
+            md_bg_color: rgba(75, 235, 168, 255)
+            background_normal: ""
+            size_hint: .2, .1
+            text: "[color=000000]RESET[/color]"
+            markup: True
+            font_size: 36
+            pos_hint: {"center_x": .5, "center_y": .2}
+            on_release:
+                root.reset()
+                root.manager.transition.direction = "up"
+
+        MDTextButton:
+            id: forgot
+            text: "[color=57b3e7][i]Back to login?[/i][/color]"
+            markup: True
+            font_size: 36
+            pos_hint: {"center_x": .6, "center_y": .32}
+            on_press:
+                app.root.current = 'login'
+                root.manager.transition.direction = 'down'
+
+        MDFloatLayout:
+            md_bg_color: rgba(178, 178, 178, 255)
+            size_hint: .2, .002
+            pos_hint: {"center_x": .6, "center_y": .295}
+
+
+
+
+<UpdateSettings>:
+    FloatLayout:
+        canvas.before:
+            Color:
+                rgba: (204/255, 200/255, 207/255, 1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        MDFloatLayout:
+            id: upbar
+            size_hint: 1, .097
+            line_color: "black"
+            pos_hint: {"center_x": .5, "center_y": .955}
+            canvas.before:
+                Color:
+                    rgba: (41/255, 145/255, 103/255, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            MDLabel:
+                id: username
+                text: "Username"
+                pos_hint: {"center_x": .52, "center_y": .52}
+                font_size: 60
+
+            MDRoundFlatButton:
+                id: profile_image
+                size_hint: .035, .975
+                pos_hint: {"center_x": .937, "center_y": .5}
+                md_bg_color: (41/255, 145/255, 103/255, 1)
+                line_color: [0,0,0,0]
+                on_press:
+                    app.root.current = 'settings'
+                MDIcon:
+                    icon: "account-circle"
+                    font_size: dp(50)
+
+
+
+        MDFloatLayout:
+            id: content
+            size_hint: 1, 0.8045
+            pos_hint: {"center_x": .5 , "center_y": .504}
+            canvas.before:
+                Color:
+                    rgba: (229/255, 235/255, 233/255, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            MDTextField:
+                id: user
+                hint_text: "Your name"
+                icon_right: "account"
+                size_hint: .4, .1
+                width: 200
+                font_size: 54
+                pos_hint: {"center_x": .5, "center_y": .6}
+
+
+            MDRectangleFlatButton:
+                id: logout
+                size_hint: .4, .05
+                pos_hint: {"center_x": .5, "center_y": .15}
+                line_color: "black"
+                text: "Update"
+                on_press:
+                    root.update()
+                    root.manager.transition.direction = 'right'
+
+            MDTextField:
+                id: pwd
+                hint_text: "new password"
+                icon_right: "eye-off"
+                size_hint: .4, .1
+                width: 200
+                font_size: 54
+                pos_hint: {"center_x": .5, "center_y": .4}
+                password: True
+
+        MDGridLayout:
+            id: downbar
+            cols: 2
+            size_hint: 1, .1
+            pos_hint: {"center_x": .5, "center_y": .05}
+            canvas.before:
+                Color:
+                    rgba: (41/255, 145/255, 103/255, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+
+            MDRectangleFlatButton:
+                id: stats
+                size_hint: 1, 1
+                line_color: "black"
+                pos_hint: {"center_x": 1, "center_y": .1}
+                on_press:
+                    app.root.current = 'stats'
+                    root.manager.transition.direction = 'down'
+                MDIcon:
+                    icon: "chart-bar"
+                    font_size: dp(50)
+
+            MDRectangleFlatButton:
+                id: home
+                size_hint: 1, 1
+                line_color: "black"
+                pos_hint: {"center_x": 1, "center_y": .1}
+                on_press:
+                    app.root.current = 'logdata'
+                    root.manager.transition.direction = 'down'
+                MDIcon:
+                    icon: "home"
+                    font_size: dp(50)
+

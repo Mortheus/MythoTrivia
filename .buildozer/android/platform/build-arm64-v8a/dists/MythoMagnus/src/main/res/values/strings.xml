@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MythoMagic</string>
+    <string name="private_version">24e2e50321b3422cfdb0bf71b3c8ff5c813743bd</string>
+    <string name="presplash_color">#000000</string>
+    <string name="urlScheme">kivy</string>
+</resources>
